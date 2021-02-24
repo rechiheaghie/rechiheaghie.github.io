@@ -20,9 +20,13 @@ font-family: "Verdana";
   <p id="baditem" style="position: absolute;" onclick="body.removeChild(this);"> Click to make this bad item disappear.</p>
   <script>
     var variblaxx = 0;
+    var iruhi = function() {
+      variblaxx++;
+      document.getElementById("baditem").style.left = variblaxx + "px";
+    };
     console.log(document.getElementById("baditem"));
     
-    setTimeout(variblaxx++;document.getElementById("baditem").style.left = variblaxx + "px", 10);
+    setTimeout(iruhi();, 10);
   </script>
 </body>
 <!-- Hello world! -->
