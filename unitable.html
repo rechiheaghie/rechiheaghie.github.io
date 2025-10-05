@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>unicode tables</title>
+<style>
+    .blak{
+        background-color:rgb(128,128,128);
+    }
+    .ref{
+        background-color:rgb(192,192,192);
+    }
+    td, table{
+        border:1px solid;
+    }
+    td{
+		font-size:24px;
+        border-color:rgb(128,128,128);
+        background-color:rgb(255,255,255);
+    }
+</style>
+    </head>
+    <body>
+<div id='tablz'>
+<table id='table'>
+</table>
+</div>
+<script type>
+var heks = '0123456789ABCDEF'
+var hexify = function(n){
+    if(n <= 0xf){
+        return heks[n];
+    }
+    if(n <= 0xff) {
+        return heks[Math.floor(n/0x10)] + heks[n%0x10];
+    }
+    if(n <= 0xfff) {
+        return heks[Math.floor(n/0x100)] + heks[Math.floor(n/0x10)%0x10] + heks[n%0x10];
+    }
+    if(n <= 0xffff) {
+        return heks[Math.floor(n/0x1000)] + heks[Math.floor(n/0x100)%0x10] + heks[Math.floor(n/0x10)%0x10] + heks[n%0x10];
+    }
+    return '?';
+};
+var surrogChar = function(cc) {
+    var subChar = cc - 0x10000;
+    var upper = subChar >> 10,
+        lower = subChar - (upper << 10);
+    var upChar = String.fromCharCode(0xd800 + upper);
+    var lowChar = String.fromCharCode(0xdc00 + lower);
+    return upChar + lowChar;
+};
+var fcc = function(cc) {
+    return (cc > 0xffff)? surrogChar(cc) : String.fromCharCode(cc);
+};
+var tablz = document.getElementById('tablz')
+var table = document.getElementById('table')
+var t = 0;
+var r = window.setInterval(function(){
+    var nuTable = document.createElement('table')
+    for(var i= t*0x10; i < t*0x10 + 0x10; i++){
+        if(i%0x10 === 0){
+            var aTr = document.createElement('tr')
+            aTr.innerHTML = '<td class="blak"></td>'
+            for(var j = 0; j < 0x10; j++){
+                aTr.innerHTML += '<td class="ref">'+heks[j]+'</td>'
+            }
+            nuTable.appendChild(aTr);
+        }
+        var nuTr = document.createElement('tr')
+        nuTr.innerHTML = '<td class="ref">' + hexify(i) + '</td>'
+        for(var j = 0; j < 0x10; j++){
+            nuTr.innerHTML += '<td align="center">' + fcc(i*0x10 + j) + '</td>'
+        }
+        nuTable.appendChild(nuTr);
+    }
+    tablz.appendChild(nuTable)
+	t++;
+	if(t > 0x1ff) window.clearInterval(r);
+}, 100);
+
+</script>
+
+    </body>
+</html>
