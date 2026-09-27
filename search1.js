@@ -130574,7 +130574,7 @@ var search2 =function(usr, usrid, type){
 				theli.style.backgroundColor = "rgb(0, 0, 0)";
 			}
 			if(divvying) theli.innerHTML+=' / '+Math.pow(2, programz[i][6]);
-			if(nummap[programz[i][2]] === 22) {
+			if(nummap[programz[i][2]] === 21) {
 				console.log("Hi");
 				theli.style.color = "cyan";
 				theli.style.textShadow = "1px 1px 5px rgb(128,128,128)";
